@@ -1,0 +1,7 @@
+C:\Users\Maliem\Documents\projectoBlazor\gestorDeTarefas\bin\Release\net6.0\publish\GestorDeTarefas.exe
+C:\Users\Maliem\Documents\projectoBlazor\gestorDeTarefas\bin\Release\net6.0\publish\appsettings.Development.json
+C:\Users\Maliem\Documents\projectoBlazor\gestorDeTarefas\bin\Release\net6.0\publish\appsettings.json
+C:\Users\Maliem\Documents\projectoBlazor\gestorDeTarefas\bin\Release\net6.0\publish\GestorDeTarefas.dll
+C:\Users\Maliem\Documents\projectoBlazor\gestorDeTarefas\bin\Release\net6.0\publish\GestorDeTarefas.deps.json
+C:\Users\Maliem\Documents\projectoBlazor\gestorDeTarefas\bin\Release\net6.0\publish\GestorDeTarefas.runtimeconfig.json
+C:\Users\Maliem\Documents\projectoBlazor\gestorDeTarefas\bin\Release\net6.0\publish\GestorDeTarefas.pdb

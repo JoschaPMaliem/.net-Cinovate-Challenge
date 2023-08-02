@@ -1,0 +1,135 @@
+@page "/"
+
+<h3>Gestor De Tarefas</h3>
+
+<div class="d-grid gap-2">
+    <input class="form-control form-control-lg" type="text" placeholder="Titulo" @bind="novaTarefaTitulo">
+
+    <textarea class="form-control" placeholder="Descricao" @bind="novaTarefaDescricao"></textarea>
+
+    <input type="date" @bind="novaTarefaDataLimite">
+    
+    <button class="btn btn-secondary" @onclick="adicionarTarefa">
+        <span class="oi oi-plus" style="color: black;" aria-hidden="true"></span>
+    </button>
+</div>
+
+<hr>
+
+<ol class="list-group">
+    @foreach (var tarefa in tarefas)
+    {
+        @if (tarefa != tarefaEditada)
+        {
+            <li class="list-group-item">
+                <h5>@tarefa.Titulo</h5>
+                <p>@tarefa.Descricao</p>
+                <p>Data Limite: @tarefa.DataLimite.ToShortDateString()</p>
+                <p>Estado: @tarefa.Estado</p>
+                <button class="btn btn-sm float-end" @onclick="(() => apagarTarefa(tarefa))">
+                    <span class="oi oi-trash"> </span>
+                </button>
+
+                <button class="btn btn-sm float-end" @onclick="(() => editarTarefa(tarefa))">
+                    <span class="oi oi-pencil"> </span>
+                </button>
+
+                <button class="btn btn-sm float-end" @onclick="(() => trocarEstado(tarefa))">
+                    @if (tarefa.Estado == EstadoTarefa.Pendente)
+                    {
+                        <span class="oi oi-check"> </span> 
+                    }
+                    else
+                    {
+                        <span class="oi oi-clock"> </span> 
+                    }
+                </button>
+            </li>
+            
+        }
+        else
+        {
+            <li class="list-group-item">
+                <input class="form-control" type="text" @bind="tarefa.Titulo" />
+
+                <textarea class="form-control" @bind="tarefa.Descricao"></textarea>
+
+                <input class="form-control" type="date" @bind="tarefa.DataLimite" />
+
+                <button class="btn btn-sm" @onclick="(() => salvarTarefaEditada())">
+                    <span class="oi oi-check"> </span>
+                </button>
+                <button class="btn btn-sm" @onclick="cancelarEdicao">
+                    <span class="oi oi-x"> </span>
+                </button>
+            </li>
+        }
+    }
+</ol>
+
+<style type="text/css">
+
+</style>
+
+@code {
+    List<Tarefa> tarefas = new()
+    {
+        new Tarefa { Titulo = "Programar", Descricao = "Terminar o projecto", DataLimite = DateTime.Now.AddDays(2) },
+        new Tarefa { Titulo = "Fazer TPC", Descricao = "Completar os exercicios", DataLimite = DateTime.Now.AddDays(1) },
+        new Tarefa { Titulo = "Comer", Descricao = "Almocar as 12 PM", DataLimite = DateTime.Now.AddHours(5) }
+    };
+    string novaTarefaTitulo = "";
+    string novaTarefaDescricao = "";
+    DateTime novaTarefaDataLimite = DateTime.Now;
+    Tarefa tarefaEditada = new Tarefa();
+
+    public class Tarefa
+    {
+        public string Titulo { get; set; }
+        public string Descricao { get; set; }
+        public DateTime DataLimite { get; set; }
+        public EstadoTarefa Estado { get; set; }
+    }
+
+    public enum EstadoTarefa
+{
+    Pendente,
+    Concluido
+}
+
+    public void trocarEstado(Tarefa tarefa)
+    {
+        tarefa.Estado = tarefa.Estado == EstadoTarefa.Pendente ? EstadoTarefa.Concluido : EstadoTarefa.Pendente;
+    }
+
+    public void adicionarTarefa()
+    {
+        if (!string.IsNullOrWhiteSpace(novaTarefaTitulo))
+        {
+            tarefas.Add(new Tarefa { Titulo = novaTarefaTitulo, Descricao = novaTarefaDescricao, DataLimite = novaTarefaDataLimite });
+            novaTarefaTitulo = "";
+            novaTarefaDescricao = "";
+            novaTarefaDataLimite = DateTime.Now;
+        }
+    }
+
+    public void apagarTarefa(Tarefa tarefaApagada)
+    {
+        tarefas.Remove(tarefaApagada);
+    }
+
+    public void editarTarefa(Tarefa tarefaParaEditar)
+    {
+        tarefaEditada = tarefaParaEditar;
+    }
+
+    public void salvarTarefaEditada()
+    {
+        tarefaEditada = new Tarefa();
+    }
+
+    public void cancelarEdicao()
+    {
+        tarefaEditada = new Tarefa();
+    }
+}
